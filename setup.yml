@@ -33,5 +33,5 @@
 
     - name: Copy desktop entry
       copy:
-        src: shawl.desktop
+        src: /opt/shawl4/shawl.desktop
         dest: /etc/xdg/applications/shawl.desktop
