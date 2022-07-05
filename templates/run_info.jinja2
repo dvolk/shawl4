@@ -20,6 +20,7 @@
 
     <h3>Run information</h3>
 
+    <p>
     <table class="w3-table w3-bordered w3-hoverable" style="width: 100%; white-space: nowrap; table-layout: fixed;">
       <tbody>
         <tr>
@@ -43,17 +44,18 @@
           <td>{{ slurm_state_pretty(run.get("status")) }}</td>
         </tr>
         <tr>
-        <th>Actions</th>
+        <th>Shawl run UUID</th>
           <Td>{{ run.get("run_uuid") }}</td>
         </tr>
       </tbody>
     </table>
+    </p>
 
 
     <h3>Run actions</h3>
 
+    <p>
     {% set actions = slurm_state_to_all_actions(run.get("status")) %}
-
     {% if "cancel" in actions %}
       <a class="w3-btn w3-red" href="{{ url_for('cancel', run_uuid=run.get('run_uuid')) }}">{{ icon('stop-circle') }} Cancel</a>
     {% endif %}
@@ -69,6 +71,7 @@
     {% if "remove" in actions %}
       <a class="w3-btn w3-red" href="{{ url_for('remove', run_uuid=run.get('run_uuid')) }}">{{ icon('trash') }} Remove</a>
     {% endif %}
+    </p>
 
   </div>
 
