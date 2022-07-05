@@ -32,7 +32,7 @@
           - markdown2
 
     - name: Copy shawl systemd service file
-      copy:
+      template:
         src: "/opt/shawl4/shawl.service"
         dest: "/etc/systemd/system/shawl.service"
 
