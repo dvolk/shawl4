@@ -2,5 +2,9 @@
 Description=shawl user service
 
 [Service]
-WorkingDirectory=~/shawl
-ExecStart=/usr/env/python3 main.py -o
+WorkingDirectory=/opt/shawl
+ExecStart=/usr/bin/python3 main.py -o
+user={{ lookup('file', '/var/daaas/primary-user') }}
+
+[Install]
+WantedBy=multi-user.target
