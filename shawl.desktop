@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Shawl
+GenericName=GUI for SLURM
+Comment=GUI for SLURM
+Exec=/usr/bin/python3 /opt/shawl4/main.py
+Icon=accessories-calculator
+Type=Application
+Categories=Utilities;
+Terminal=false
