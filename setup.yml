@@ -31,17 +31,7 @@
           - scp
           - markdown2
 
-    - name: Copy shawl systemd service file
-      template:
-        src: "/opt/shawl4/shawl.service"
-        dest: "/etc/systemd/system/shawl.service"
-
-    - name: reload systemd user service
-      ansible.builtin.systemd:
-        daemon_reexec: yes
-
-    - name: enable and start shawl service
-      ansible.builtin.systemd:
-        name: shawl
-        state: started
-        enabled: yes
+    - name: Copy desktop entry
+      copy:
+        src: shawl.desktop
+        dest: /etc/xdg/applications/shawl.desktop
