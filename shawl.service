@@ -1,0 +1,6 @@
+[Unit]
+Description=shawl user service
+
+[Service]
+WorkingDirectory=~/shawl
+ExecStart=/usr/env/python3 main.py -o

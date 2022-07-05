@@ -1,0 +1,46 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: Install python 3.6
+      yum:
+        name:
+          - python3
+          - python3-devel
+
+    - name: Clone latest version of shawl
+      git:
+        repo: git@github.com:dvolk/shawl4.git
+        dest: ~
+
+    - name: Install shawl reqs
+      pip:
+        name:
+          - argh
+          - flask
+          - humanize
+          - paramiko
+          - scp
+          - markdown2
+
+    - name: Create ~/.config/systemd/user
+      file:
+        path: ~/.config/systemd/user
+        state: directory
+
+    - name: Copy shawl systemd service file
+      copy:
+        src: ~/shawl/shawl.service
+        dest: ~/.config/systemd/user/shawl.service
+
+    - name: reload systemd user service
+      ansible.builtin.systemd:
+        daemon_reexec: yes
+        scope: user
+
+    - name: enable and start shawl service
+      ansible.builtin.systemd:
+        name: shawl
+        state: started
+        enabled: yes
+        scope: user
