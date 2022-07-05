@@ -618,6 +618,7 @@ def restore():
     scpconn = scp.SCPClient(conn.get_transport())
     local_conf_path = pathlib.Path().home() / "shawl.json"
     scpconn.get(remote_path="shawl.json", local_path=local_conf_path)
+    load_app_state()
     return flask.redirect(flask.url_for("runs"))
 
 
