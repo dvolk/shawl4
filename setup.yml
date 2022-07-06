@@ -2,36 +2,24 @@
 - hosts: localhost
   connection: local
   tasks:
-    - name: Install python 3.6
-      yum:
-        name:
-          - python3
-          - python3-devel
-          - python3-pip
+    - name: Install Python 3.9
+      include_role:
+        name: software/utilities/python3
+      vars:
+        python3_version: python3.9
+
+    - name: Install shawl reqs
+      pip:
+        requirements: /opt/shawl4/requirements.txt
+        virtualenv: /opt/shawl4/venv
+        virtualenv_python: python3.9
 
     - name: Clone latest version of shawl
       git:
         repo: https://github.com/dvolk/shawl4
         dest: /opt/shawl4
 
-    - name: Upgrade pip
-      pip:
-        executable: /usr/bin/pip3
-        name: pip
-        state: latest
-
-    - name: Install shawl reqs
-      pip:
-        executable: /usr/bin/pip3
-        name:
-          - argh
-          - flask
-          - humanize
-          - paramiko
-          - scp
-          - markdown2
-
     - name: Copy desktop entry
       copy:
-        src: /opt/shawl4/shawl.desktop
+        src: shawl.desktop
         dest: /etc/xdg/applications/shawl.desktop
