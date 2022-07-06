@@ -440,15 +440,23 @@ def run_run(run_name, run_local_dir):
     # TODO check return code
     cmd = f"cd {remote_run_dir} ; sbatch {job_file}"
     stdin, stdout, stderr = conn_run(cmd)
-    job_id = stdout.read()
+    sbatch_out = stdout.read().decode()
+    sbatch_err = stderr.read().decode()
     retcode = stdout.channel.recv_exit_status()
     if retcode != 0:
-        update_run_by_uuid(run_uuid, {"status": "E-sbatcherror"})
+        update_run_by_uuid(
+            run_uuid,
+            {
+                "status": "E-sbatcherror",
+                "sbatch_out": sbatch_out,
+                "sbatch_err": sbatch_err,
+            },
+        )
         save_app_state()
         return
 
     logging.debug(job_id)
-    job_id = job_id.decode().split()[-1]
+    job_id = sbatch_out.split()[-1]
     stdin.close()
     stdout.close()
     stderr.close()

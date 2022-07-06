@@ -18,7 +18,7 @@
       <a class="w3-btn w3-blue" href="{{ url_for('runs') }}">{{ icon('arrow-circle-left') }} Back</a>
     </p>
 
-    <h3>Run information</h3>
+    <h3>{{ icon('info-circle') }} Run information</h3>
 
     <p>
     <table class="w3-table w3-bordered w3-hoverable" style="width: 100%; white-space: nowrap; table-layout: fixed;">
@@ -51,8 +51,7 @@
     </table>
     </p>
 
-
-    <h3>Run actions</h3>
+    <h3>{{ icon('info-circle') }} Run actions</h3>
 
     <p>
     {% set actions = slurm_state_to_all_actions(run.get("status")) %}
@@ -72,6 +71,14 @@
       <a class="w3-btn w3-red" href="{{ url_for('remove', run_uuid=run.get('run_uuid')) }}">{{ icon('trash') }} Remove</a>
     {% endif %}
     </p>
+
+    {% if run.get("sbatch_err") %}
+      <h3>{{ icon('exclamation-circle') }} SLURM sbatch error</h3>
+      <h4>stderr:</h4>
+      <pre>
+{{ run.get("sbatch_err") }}</pre>
+    {% endif %}
+
 
   </div>
 
