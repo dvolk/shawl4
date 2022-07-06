@@ -645,15 +645,44 @@ def main(port=7321, open_browser=True):
 
     web_url = f"http://127.0.0.1:{port}"
 
-    def open_scarf():
+    def is_shawl_running():
+        """Check if shawl is running or if we need to start it.
+
+        Making some assumptions where about where it's installed to narrow down
+        the grep. An alternative would be to rename main.py to something more
+        unique.
+        """
+        try:
+            procs = (
+                subprocess.check_output(
+                    "ps axwf | grep /opt/shawl4/main.py | grep -v grep", shell=True
+                )
+                .decode()
+                .strip()
+                .split("\n")
+            )
+            if len(procs) == 1:
+                # no other shawl process is running
+                return False
+            else:
+                return True
+        except subprocess.CalledProcessError:
+            logging.exception("is_shawl_running error:")
+            return False
+
+    def open_shawl():
         """Open the web browser to the scarf url after 5 seconds."""
-        time.sleep(5)
+        time.sleep(3)
         webbrowser.open_new(web_url)
 
     if open_browser:
-        threading.Thread(target=open_scarf).start()
+        threading.Thread(target=open_shawl).start()
 
-    app.run(port=port)
+    if not is_shawl_running():
+        logging.info("starting web server.")
+        app.run(port=port)
+    else:
+        logging.info("shawl is already running.")
 
 
 if __name__ == "__main__":
