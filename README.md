@@ -1,8 +1,8 @@
 # Shawl
 
-## Description
-
 Shawl is an interface to SLURM systems that runs as a local web application.
+
+<img src="https://i.imgur.com/50j8XFr.png"/>
 
 ## Installation (ubuntu 22.04)
 
